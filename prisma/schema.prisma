@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  password String
+  name     String
+  surname  String
+  role     String
+  sets     Set[]
+}
+
+model Set {
+  id        Int        @id @default(autoincrement())
+  name      String
+  userId    Int
+  user      User       @relation(fields: [userId], references: [id])
+  questions Question[]
+}
+
+model Question {
+  id       Int       @id @default(autoincrement())
+  text     String    
+  variants Variant[] 
+  setId    Int
+  set      Set       @relation(fields: [setId], references: [id])
+}
+
+model Variant {
+  id         Int      @id @default(autoincrement())
+  text       String
+  isCorrect  Boolean  @default(false)
+  questionId Int
+  question   Question @relation(fields: [questionId], references: [id])
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  user      String
+  setId     Int
+  startTime DateTime? @default(now())
+  endTime   DateTime?
+  completed Boolean  @default(false)
+}
+
+model Answer {
+  id       Int @id @default(autoincrement())
+  question Int
+  variant  Int
+  session  Int
+}

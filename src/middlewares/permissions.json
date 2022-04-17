@@ -1,0 +1,10 @@
+[   { "path": "^/api-docs" },
+    { "path": "/api/login" },
+    { "path": "/api/logout" },
+    { "path": "/api/register" },
+    { "path": "/api/set", "role": "USER" },
+    {
+        "path": "^/api/question",
+        "role": "USER"
+    }
+]
