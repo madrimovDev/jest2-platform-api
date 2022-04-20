@@ -4,6 +4,13 @@
 Authorization: Bearer [token]
 
 **POST** `/api/set`
+``` json
+{
+    "name": "Celestial",
+    "time": 3600000,
+    "path": "0000-4451-BGXC-5TR3",
+}
+```
 
 Response:
 

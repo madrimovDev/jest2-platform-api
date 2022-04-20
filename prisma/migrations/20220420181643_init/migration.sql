@@ -11,19 +11,21 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
-CREATE TABLE "Set" (
+CREATE TABLE "Complex" (
     "id" SERIAL NOT NULL,
+    "path" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
+    "time" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Set_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Complex_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Question" (
     "id" SERIAL NOT NULL,
     "text" TEXT NOT NULL,
-    "setId" INTEGER NOT NULL,
+    "complexId" INTEGER NOT NULL,
 
     CONSTRAINT "Question_pkey" PRIMARY KEY ("id")
 );
@@ -41,21 +43,39 @@ CREATE TABLE "Variant" (
 -- CreateTable
 CREATE TABLE "Session" (
     "id" SERIAL NOT NULL,
+    "user" TEXT NOT NULL,
+    "complexId" INTEGER NOT NULL,
+    "startTime" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "endTime" TIMESTAMP(3),
+    "completed" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Answer" (
+    "id" SERIAL NOT NULL,
+    "question" INTEGER NOT NULL,
+    "variant" INTEGER NOT NULL,
+    "session" INTEGER NOT NULL,
+
+    CONSTRAINT "Answer_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_username_key" ON "User"("username");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Question_text_key" ON "Question"("text");
+CREATE UNIQUE INDEX "Complex_path_key" ON "Complex"("path");
 
 -- AddForeignKey
-ALTER TABLE "Set" ADD CONSTRAINT "Set_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Complex" ADD CONSTRAINT "Complex_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Question" ADD CONSTRAINT "Question_setId_fkey" FOREIGN KEY ("setId") REFERENCES "Set"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Question" ADD CONSTRAINT "Question_complexId_fkey" FOREIGN KEY ("complexId") REFERENCES "Complex"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Variant" ADD CONSTRAINT "Variant_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Session" ADD CONSTRAINT "Session_complexId_fkey" FOREIGN KEY ("complexId") REFERENCES "Complex"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

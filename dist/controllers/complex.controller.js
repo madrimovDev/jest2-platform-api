@@ -36,96 +36,99 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-var SetController = /** @class */ (function () {
-    function SetController(setService) {
-        this.setService = setService;
+var ComplexController = /** @class */ (function () {
+    function ComplexController(complexService) {
+        this.complexService = complexService;
     }
-    SetController.prototype.addSet = function (req, res) {
+    ComplexController.prototype.create = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var userId, set;
+            var userId, complex;
             return __generator(this, function (_a) {
                 userId = req.payload.userId;
-                set = req.body;
-                set.userId = userId;
-                // add set to database
-                this.setService.addSet(set)
-                    .then(function (set) {
+                complex = req.body;
+                complex.userId = userId;
+                this.complexService.createOne(complex)
+                    .then(function (complex) {
                     res.json({
                         message: "Sets retrieved",
-                        set: set
+                        complex: complex
                     });
                 })["catch"](function (err) {
                     res.status(500).json({
-                        message: "Error retrieving sets",
+                        message: "Error retrieving complexes",
                         error: err
                     });
+                    throw err;
                 });
                 return [2 /*return*/];
             });
         });
     };
-    SetController.prototype.getAllSets = function (req, res) {
+    ComplexController.prototype.findAll = function (req, res) {
         var userId = req.payload.userId;
-        this.setService.getSets(userId)
-            .then(function (sets) {
+        this.complexService.findAll(userId)
+            .then(function (complexes) {
             res.json({
-                message: "Sets retrieved",
-                sets: sets
+                message: "Complex retrieved",
+                complexes: complexes
             });
         })["catch"](function (err) {
             res.status(500).json({
-                message: "Error retrieving sets",
+                message: "Error retrieving complexes",
                 error: err
             });
+            throw err;
         });
     };
-    SetController.prototype.getSet = function (req, res) {
-        var setId = +req.params.setId;
-        this.setService.getSet(setId)
-            .then(function (set) {
+    ComplexController.prototype.findOne = function (req, res) {
+        var id = +req.params.id;
+        this.complexService.findOne(id)
+            .then(function (complex) {
             res.json({
                 message: "Set retrieved",
-                set: set
+                complex: complex
             });
         })["catch"](function (err) {
             res.status(500).json({
-                message: "Error retrieving set",
+                message: "Error retrieving complex",
                 error: err
             });
+            throw err;
         });
     };
-    SetController.prototype.updateSet = function (req, res) {
-        var setId = +req.params.setId;
-        var set = req.body;
-        set.id = setId;
-        this.setService.updateSet(set)
-            .then(function (set) {
+    ComplexController.prototype.updateOne = function (req, res) {
+        var id = +req.params.id;
+        var complex = req.body;
+        complex.id = id;
+        this.complexService.updateOne(complex)
+            .then(function (complex) {
             res.json({
-                message: "Set updated",
-                set: set
+                message: "Complex updated",
+                complex: complex
             });
         })["catch"](function (err) {
             res.status(500).json({
-                message: "Error updating set",
+                message: "Error updating complex",
                 error: err
             });
+            throw err;
         });
     };
-    SetController.prototype.deleteSet = function (req, res) {
-        var setId = +req.params.setId;
-        this.setService.deleteSet(setId)
+    ComplexController.prototype.deleteOne = function (req, res) {
+        var id = +req.params.id;
+        this.complexService.deleteOne(id)
             .then(function () {
             res.json({
-                message: "Set deleted"
+                message: "Complex deleted"
             });
         })["catch"](function (err) {
             res.status(500).json({
-                message: "Error deleting set",
+                message: "Error deleting Complex",
                 error: err
             });
         });
     };
-    return SetController;
+    return ComplexController;
 }());
-exports["default"] = SetController;
-//# sourceMappingURL=set.controller.js.map
+exports["default"] = ComplexController;
+//# sourceMappingURL=complex.controller.js.map

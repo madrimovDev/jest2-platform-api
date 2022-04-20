@@ -1,10 +1,10 @@
 import { Variant } from "./variant.model";
 
-export default class Question {
+export default class QuestionWithVariants {
     constructor(
         public id: number,
         public text: string,
         public variants: Variant[],
-        public setId: number
+        public complexId: number
     ) { }
 }

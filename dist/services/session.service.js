@@ -37,20 +37,77 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 exports.__esModule = true;
 exports.SessionService = void 0;
+var includeOptions = {
+    complex: {
+        include: {
+            questions: {
+                include: {
+                    variants: true
+                }
+            }
+        }
+    }
+};
 var SessionService = /** @class */ (function () {
     function SessionService(client) {
         this.client = client;
     }
+    SessionService.prototype.findSessionByPath = function (path) {
+        return __awaiter(this, void 0, void 0, function () {
+            var session;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.client.session.findUnique({
+                            where: {
+                                path: path
+                            },
+                            include: includeOptions
+                        })];
+                    case 1:
+                        session = _a.sent();
+                        if (!session) {
+                            throw new Error("Session not found");
+                        }
+                        return [2 /*return*/, this.mapSession];
+                }
+            });
+        });
+    };
+    SessionService.prototype.completeSession = function (sessionId, answers) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.client.session.update({
+                            where: {
+                                id: sessionId
+                            },
+                            data: {
+                                completed: true,
+                                endTime: new Date(),
+                                answers: {
+                                    create: answers
+                                }
+                            }
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     SessionService.prototype.getSession = function (sessionId) {
         return __awaiter(this, void 0, void 0, function () {
+            var session;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.client.session.findUnique({
                             where: {
                                 id: sessionId
-                            }
+                            },
+                            include: includeOptions
                         })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1:
+                        session = _a.sent();
+                        return [2 /*return*/, this.mapSession(session)];
                 }
             });
         });
@@ -67,18 +124,30 @@ var SessionService = /** @class */ (function () {
     };
     SessionService.prototype.createSession = function (session) {
         return __awaiter(this, void 0, void 0, function () {
+            var newSession;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.client.session.create({
                             data: {
                                 user: session.user,
-                                setId: session.setId
-                            }
+                                complexId: session.complexId,
+                                startTime: session.startTime
+                            },
+                            include: includeOptions
                         })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 1:
+                        newSession = _a.sent();
+                        return [2 /*return*/, this.mapSession(newSession)];
                 }
             });
         });
+    };
+    SessionService.prototype.mapSession = function (session) {
+        var time = new Date().getTime() - session.startTime.getTime();
+        var remainingTime = session.complex.time.getTime() - time;
+        session.expired = remainingTime > 0;
+        session.remainingTime = remainingTime;
+        return session;
     };
     SessionService.prototype.updateSession = function (id, session) {
         return __awaiter(this, void 0, void 0, function () {

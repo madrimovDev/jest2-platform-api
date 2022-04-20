@@ -40,7 +40,7 @@ var SessionController = /** @class */ (function () {
     function SessionController(sessionService) {
         this.sessionService = sessionService;
     }
-    SessionController.prototype.createSession = function (req, res) {
+    SessionController.prototype.create = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 this.sessionService.createSession(req.body)
@@ -59,7 +59,7 @@ var SessionController = /** @class */ (function () {
             });
         });
     };
-    SessionController.prototype.getSessions = function (req, res) {
+    SessionController.prototype.findAll = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 this.sessionService.getSessions()
@@ -78,7 +78,7 @@ var SessionController = /** @class */ (function () {
             });
         });
     };
-    SessionController.prototype.getSession = function (req, res) {
+    SessionController.prototype.findOne = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var id;
             return __generator(this, function (_a) {
@@ -99,7 +99,7 @@ var SessionController = /** @class */ (function () {
             });
         });
     };
-    SessionController.prototype.updateSession = function (req, res) {
+    SessionController.prototype.updateOne = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var id;
             return __generator(this, function (_a) {

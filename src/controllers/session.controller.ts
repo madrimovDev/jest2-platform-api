@@ -5,8 +5,7 @@ export default class SessionController {
 
     constructor(private sessionService: SessionService) {}
 
-    public async createSession(req: Request, res: Response) {
-
+    public async create(req: Request, res: Response) {
         this.sessionService.createSession(req.body)
             .then(session => {
                 res.status(201).send({
@@ -23,7 +22,7 @@ export default class SessionController {
         );
     }
 
-    public async getSessions(req: Request, res: Response) {
+    public async findAll(req: Request, res: Response) {
             
             this.sessionService.getSessions()
                 .then(sessions => {
@@ -41,7 +40,7 @@ export default class SessionController {
             );
         }
 
-    public async getSession(req: Request, res: Response) {
+    public async findOne(req: Request, res: Response) {
         let id = +req.params.id;
         this.sessionService.getSession(id)
             .then(session => {
@@ -59,7 +58,7 @@ export default class SessionController {
         );
     }
 
-    public async updateSession(req: Request, res: Response) {
+    public async updateOne(req: Request, res: Response) {
         let id = +req.params.id;
         this.sessionService.updateSession(id, req.body)
             .then(session => {

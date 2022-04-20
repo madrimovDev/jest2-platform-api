@@ -40,11 +40,11 @@ var SetService = /** @class */ (function () {
     function SetService(client) {
         this.client = client;
     }
-    SetService.prototype.getSets = function (userId) {
+    SetService.prototype.findAll = function (userId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.client.set.findMany({
+                    case 0: return [4 /*yield*/, this.client.complex.findMany({
                             where: {
                                 userId: userId
                             }
@@ -55,13 +55,20 @@ var SetService = /** @class */ (function () {
         });
     };
     // get one set
-    SetService.prototype.getSet = function (setId) {
+    SetService.prototype.findOne = function (complexId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.client.set.findUnique({
+                    case 0: return [4 /*yield*/, this.client.complex.findUnique({
                             where: {
-                                id: setId
+                                id: complexId
+                            },
+                            include: {
+                                questions: {
+                                    include: {
+                                        variants: true
+                                    }
+                                }
                             }
                         })];
                     case 1: return [2 /*return*/, _a.sent()];
@@ -69,14 +76,15 @@ var SetService = /** @class */ (function () {
             });
         });
     };
-    SetService.prototype.addSet = function (set) {
+    SetService.prototype.createOne = function (complex) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.client.set.create({
+                    case 0: return [4 /*yield*/, this.client.complex.create({
                             data: {
-                                name: set.name,
-                                userId: set.userId
+                                name: complex.name,
+                                userId: complex.userId,
+                                time: new Date(complex.time)
                             }
                         })];
                     case 1: return [2 /*return*/, _a.sent()];
@@ -85,16 +93,17 @@ var SetService = /** @class */ (function () {
         });
     };
     // update set
-    SetService.prototype.updateSet = function (set) {
+    SetService.prototype.updateOne = function (complex) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.client.set.update({
+                    case 0: return [4 /*yield*/, this.client.complex.update({
                             where: {
-                                id: set.id
+                                id: complex.id
                             },
                             data: {
-                                name: set.name
+                                name: complex.name,
+                                time: new Date(complex.time)
                             }
                         })];
                     case 1: return [2 /*return*/, _a.sent()];
@@ -102,13 +111,13 @@ var SetService = /** @class */ (function () {
             });
         });
     };
-    SetService.prototype.deleteSet = function (setId) {
+    SetService.prototype.deleteOne = function (complexId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.client.set["delete"]({
+                    case 0: return [4 /*yield*/, this.client.complex["delete"]({
                             where: {
-                                id: setId
+                                id: complexId
                             }
                         })];
                     case 1: return [2 /*return*/, _a.sent()];
@@ -119,4 +128,4 @@ var SetService = /** @class */ (function () {
     return SetService;
 }());
 exports["default"] = SetService;
-//# sourceMappingURL=set.service.js.map
+//# sourceMappingURL=complex.service.js.map

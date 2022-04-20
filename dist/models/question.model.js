@@ -1,13 +1,13 @@
 "use strict";
 exports.__esModule = true;
-var Question = /** @class */ (function () {
-    function Question(id, text, variants, setId) {
+var QuestionWithVariants = /** @class */ (function () {
+    function QuestionWithVariants(id, text, variants, complexId) {
         this.id = id;
         this.text = text;
         this.variants = variants;
-        this.setId = setId;
+        this.complexId = complexId;
     }
-    return Question;
+    return QuestionWithVariants;
 }());
-exports["default"] = Question;
+exports["default"] = QuestionWithVariants;
 //# sourceMappingURL=question.model.js.map

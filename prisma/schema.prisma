@@ -8,29 +8,32 @@ datasource db {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique
-  password String
-  name     String
-  surname  String
-  role     String
-  sets     Set[]
+  id        Int       @id @default(autoincrement())
+  username  String    @unique
+  password  String
+  name      String
+  surname   String
+  role      String
+  complexes Complex[]
 }
 
-model Set {
+model Complex {
   id        Int        @id @default(autoincrement())
   name      String
   userId    Int
+  time      DateTime
   user      User       @relation(fields: [userId], references: [id])
   questions Question[]
+  sessions  Session[]
 }
 
 model Question {
-  id       Int       @id @default(autoincrement())
-  text     String    
-  variants Variant[] 
-  setId    Int
-  set      Set       @relation(fields: [setId], references: [id])
+  id        Int       @id @default(autoincrement())
+  text      String
+  variants  Variant[]
+  complexId Int
+  complex   Complex   @relation(fields: [complexId], references: [id])
+  answers    Answer[]
 }
 
 model Variant {
@@ -39,20 +42,27 @@ model Variant {
   isCorrect  Boolean  @default(false)
   questionId Int
   question   Question @relation(fields: [questionId], references: [id])
+  answers     Answer[]
 }
 
 model Session {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   user      String
-  setId     Int
-  startTime DateTime? @default(now())
+  path      String    @unique @default(cuid())
+  complexId Int
+  complex   Complex   @relation(fields: [complexId], references: [id])
+  startTime DateTime  @default(now())
   endTime   DateTime?
-  completed Boolean  @default(false)
+  completed Boolean   @default(false)
+  answers    Answer[]
 }
 
 model Answer {
-  id       Int @id @default(autoincrement())
-  question Int
-  variant  Int
-  session  Int
+  id         Int      @id @default(autoincrement())
+  questionId Int
+  question   Question @relation(fields: [questionId], references: [id])
+  variantId  Int
+  variant    Variant  @relation(fields: [variantId], references: [id])
+  sessionId  Int
+  session    Session  @relation(fields: [sessionId], references: [id])
 }

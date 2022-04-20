@@ -40,30 +40,7 @@ var QuestionService = /** @class */ (function () {
     function QuestionService(prisma) {
         this.prisma = prisma;
     }
-    QuestionService.prototype.updateQuestionsBySet = function (setId, questions) {
-        return this.prisma.question.updateMany({
-            where: {
-                setId: setId
-            },
-            data: questions.map(function (question) {
-                return {
-                    text: question.text
-                };
-            })
-        });
-    };
-    QuestionService.prototype.addVariants = function (questionId, variants) {
-        return this.prisma.variant.createMany({
-            data: variants.map(function (variant) {
-                return {
-                    questionId: questionId,
-                    text: variant.text,
-                    isCorrect: variant.isCorrect
-                };
-            })
-        });
-    };
-    QuestionService.prototype.addQuestionsBySet = function (setId, questions) {
+    QuestionService.prototype.createMany = function (complexId, questions) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -81,8 +58,8 @@ var QuestionService = /** @class */ (function () {
                                 case 2:
                                     if (!(_i < questions_1.length)) return [3 /*break*/, 5];
                                     question = questions_1[_i];
-                                    question.setId = setId;
-                                    return [4 /*yield*/, this.createQuestion(question)];
+                                    question.complexId = complexId;
+                                    return [4 /*yield*/, this.createOne(question)];
                                 case 3:
                                     newQuestion = _a.sent();
                                     array.push(newQuestion);
@@ -104,13 +81,36 @@ var QuestionService = /** @class */ (function () {
             });
         });
     };
-    QuestionService.prototype.getQuestions = function (setId) {
+    QuestionService.prototype.createVariants = function (questionId, variants) {
+        return this.prisma.variant.createMany({
+            data: variants.map(function (variant) {
+                return {
+                    questionId: questionId,
+                    text: variant.text,
+                    isCorrect: variant.isCorrect
+                };
+            })
+        });
+    };
+    QuestionService.prototype.updateMany = function (complexId, questions) {
+        return this.prisma.question.updateMany({
+            where: {
+                complexId: complexId
+            },
+            data: questions.map(function (question) {
+                return {
+                    text: question.text
+                };
+            })
+        });
+    };
+    QuestionService.prototype.findAll = function (complexId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.prisma.question.findMany({
                             where: {
-                                setId: setId
+                                complexId: complexId
                             },
                             include: {
                                 variants: true
@@ -121,31 +121,14 @@ var QuestionService = /** @class */ (function () {
             });
         });
     };
-    QuestionService.prototype.getQuestion = function (questionId) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.prisma.question.findUnique({
-                            where: {
-                                id: questionId
-                            },
-                            include: {
-                                variants: true
-                            }
-                        })];
-                    case 1: return [2 /*return*/, _a.sent()];
-                }
-            });
-        });
-    };
-    QuestionService.prototype.createQuestion = function (question) {
+    QuestionService.prototype.createOne = function (question) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.prisma.question.create({
                             data: {
                                 text: question.text,
-                                setId: question.setId,
+                                complexId: question.complexId,
                                 variants: {
                                     createMany: {
                                         data: question.variants.map(function (variant) {
@@ -156,6 +139,9 @@ var QuestionService = /** @class */ (function () {
                                         })
                                     }
                                 }
+                            },
+                            include: {
+                                variants: true
                             }
                         })];
                     case 1: return [2 /*return*/, _a.sent()];
@@ -163,7 +149,7 @@ var QuestionService = /** @class */ (function () {
             });
         });
     };
-    QuestionService.prototype.updateQuestion = function (question) {
+    QuestionService.prototype.updateOne = function (question) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -180,7 +166,7 @@ var QuestionService = /** @class */ (function () {
             });
         });
     };
-    QuestionService.prototype.deleteQuestion = function (questionId) {
+    QuestionService.prototype.deleteOne = function (questionId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
@@ -197,13 +183,13 @@ var QuestionService = /** @class */ (function () {
             });
         });
     };
-    QuestionService.prototype.deleteQuestionsBySet = function (setId) {
+    QuestionService.prototype.deleteAll = function (complexId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0: return [4 /*yield*/, this.prisma.question.deleteMany({
                             where: {
-                                setId: setId
+                                complexId: complexId
                             }
                         })];
                     case 1: return [2 /*return*/, _a.sent()];

@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import QuestionWithVariants from "../models/question.model";
 import Question from "../models/question.model";
 import QuestionService from "../services/question.service";
 
@@ -7,14 +8,14 @@ export default class QuestionController {
     constructor(private questionService: QuestionService) { }
 
     // add questions by set id
-    async addQuestionsBySet(req: Request, res: Response) {
+    async create(req: Request, res: Response) {
 
-        let setId = +req.params.setId
+        let cid = +req.params.cid
         
-        let questions: Question[] = req.body
+        let questions: QuestionWithVariants[] = req.body
 
         // add questions with create question function
-        this.questionService.addQuestionsBySet(setId, questions)
+        this.questionService.createMany(cid, questions)
             .then(questions => {
                 res.status(200).json({
                     message: "Questions added successfully",
@@ -32,35 +33,35 @@ export default class QuestionController {
     }
         
 
-    async addQuestion(req: Request, res: Response) {
+    // async addQuestion(req: Request, res: Response) {
 
-        let setId = +req.params.id
+    //     let complexId = +req.params.id
 
-        let question: Question = req.body
-        question.setId = setId
+    //     let question: QuestionWithVariants = req.body
+    //     question.complexId = complexId
 
-        // add question to database
-        this.questionService.createQuestion(question)
-            .then(question => {
-                res.json({
-                    message: "Question retrieved",
-                    question
-                })
-            })
-            .catch(err => {
-                res.status(500).json({
-                    message: "Error retrieving question",
-                    error: err
-                })
-            })
-    }
+    //     // add question to database
+    //     this.questionService.createQuestion(question)
+    //         .then(question => {
+    //             res.json({
+    //                 message: "Question retrieved",
+    //                 question
+    //             })
+    //         })
+    //         .catch(err => {
+    //             res.status(500).json({
+    //                 message: "Error retrieving question",
+    //                 error: err
+    //             })
+    //         })
+    // }
 
-    async getQuestions(req: Request, res: Response) {
+    async findAll(req: Request, res: Response) {
 
-        let setId = +req.params.setId
+        let cid = +req.params.cid
 
         // get questions from database
-        this.questionService.getQuestions(setId)
+        this.questionService.findAll(cid)
             .then(questions => {
                 res.json({
                     message: "Questions retrieved",
@@ -77,13 +78,13 @@ export default class QuestionController {
     }
 
     // update questions by set id
-    async updateQuestionsBySet(req: Request, res: Response) {
+    async updateAll(req: Request, res: Response) {
 
-        let setId = +req.params.id
+        let cid = +req.params.cid
         let questions: Question[] = req.body
 
         // update questions in database
-        this.questionService.updateQuestionsBySet(setId, questions)
+        this.questionService.updateMany(cid, questions)
             .then(questions => {
                 res.json({
                     message: "Questions updated successfully",
@@ -98,12 +99,12 @@ export default class QuestionController {
             })
     }
 
-    async updateQuestion(req: Request, res: Response) {
+    async updateOne(req: Request, res: Response) {
 
         let question: Question = req.body
 
         // update question in database
-        this.questionService.updateQuestion(question)
+        this.questionService.updateOne(question)
             .then(question => {
                 res.json({
                     message: "Question updated",
@@ -118,12 +119,12 @@ export default class QuestionController {
             })
     }
 
-    async deleteQuestion(req: Request, res: Response) {
+    async deleteOne(req: Request, res: Response) {
 
         let questionId = +req.params.id
 
         // delete question from database
-        this.questionService.deleteQuestion(questionId)
+        this.questionService.deleteOne(questionId)
             .then(() => {
                 res.json({
                     message: "Question deleted"
@@ -137,34 +138,34 @@ export default class QuestionController {
             })
     }
 
-    // get question by id
-    async getQuestion(req: Request, res: Response) {
+    // // get question by id
+    // async getQuestion(req: Request, res: Response) {
 
-        let questionId = +req.params.id
+    //     let questionId = +req.params.id
 
-        // get question from database
-        this.questionService.getQuestion(questionId)
-            .then(question => {
-                res.json({
-                    message: "Question retrieved",
-                    question
-                })
-            })
-            .catch(err => {
-                res.status(500).json({
-                    message: "Error retrieving question",
-                    error: err
-                })
-            })
-    }
+    //     // get question from database
+    //     this.questionService.getQuestion(questionId)
+    //         .then(question => {
+    //             res.json({
+    //                 message: "Question retrieved",
+    //                 question
+    //             })
+    //         })
+    //         .catch(err => {
+    //             res.status(500).json({
+    //                 message: "Error retrieving question",
+    //                 error: err
+    //             })
+    //         })
+    // }
 
     // delete questions by set id
-    async deleteQuestionsBySet(req: Request, res: Response) {
+    async deleteAll(req: Request, res: Response) {
 
-        let setId = +req.params.id
+        let cid = +req.params.cid
 
         // delete questions from database
-        this.questionService.deleteQuestionsBySet(setId)
+        this.questionService.deleteAll(cid)
             .then(() => {
                 res.json({
                     message: "Questions deleted"

@@ -41,14 +41,14 @@ var QuestionController = /** @class */ (function () {
         this.questionService = questionService;
     }
     // add questions by set id
-    QuestionController.prototype.addQuestionsBySet = function (req, res) {
+    QuestionController.prototype.create = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var setId, questions;
+            var cid, questions;
             return __generator(this, function (_a) {
-                setId = +req.params.setId;
+                cid = +req.params.cid;
                 questions = req.body;
                 // add questions with create question function
-                this.questionService.addQuestionsBySet(setId, questions)
+                this.questionService.createMany(cid, questions)
                     .then(function (questions) {
                     res.status(200).json({
                         message: "Questions added successfully",
@@ -65,37 +65,32 @@ var QuestionController = /** @class */ (function () {
             });
         });
     };
-    QuestionController.prototype.addQuestion = function (req, res) {
+    // async addQuestion(req: Request, res: Response) {
+    //     let complexId = +req.params.id
+    //     let question: QuestionWithVariants = req.body
+    //     question.complexId = complexId
+    //     // add question to database
+    //     this.questionService.createQuestion(question)
+    //         .then(question => {
+    //             res.json({
+    //                 message: "Question retrieved",
+    //                 question
+    //             })
+    //         })
+    //         .catch(err => {
+    //             res.status(500).json({
+    //                 message: "Error retrieving question",
+    //                 error: err
+    //             })
+    //         })
+    // }
+    QuestionController.prototype.findAll = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var setId, question;
+            var cid;
             return __generator(this, function (_a) {
-                setId = +req.params.id;
-                question = req.body;
-                question.setId = setId;
-                // add question to database
-                this.questionService.createQuestion(question)
-                    .then(function (question) {
-                    res.json({
-                        message: "Question retrieved",
-                        question: question
-                    });
-                })["catch"](function (err) {
-                    res.status(500).json({
-                        message: "Error retrieving question",
-                        error: err
-                    });
-                });
-                return [2 /*return*/];
-            });
-        });
-    };
-    QuestionController.prototype.getQuestions = function (req, res) {
-        return __awaiter(this, void 0, void 0, function () {
-            var setId;
-            return __generator(this, function (_a) {
-                setId = +req.params.setId;
+                cid = +req.params.cid;
                 // get questions from database
-                this.questionService.getQuestions(setId)
+                this.questionService.findAll(cid)
                     .then(function (questions) {
                     res.json({
                         message: "Questions retrieved",
@@ -113,14 +108,14 @@ var QuestionController = /** @class */ (function () {
         });
     };
     // update questions by set id
-    QuestionController.prototype.updateQuestionsBySet = function (req, res) {
+    QuestionController.prototype.updateAll = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var setId, questions;
+            var cid, questions;
             return __generator(this, function (_a) {
-                setId = +req.params.id;
+                cid = +req.params.cid;
                 questions = req.body;
                 // update questions in database
-                this.questionService.updateQuestionsBySet(setId, questions)
+                this.questionService.updateMany(cid, questions)
                     .then(function (questions) {
                     res.json({
                         message: "Questions updated successfully",
@@ -136,13 +131,13 @@ var QuestionController = /** @class */ (function () {
             });
         });
     };
-    QuestionController.prototype.updateQuestion = function (req, res) {
+    QuestionController.prototype.updateOne = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var question;
             return __generator(this, function (_a) {
                 question = req.body;
                 // update question in database
-                this.questionService.updateQuestion(question)
+                this.questionService.updateOne(question)
                     .then(function (question) {
                     res.json({
                         message: "Question updated",
@@ -158,13 +153,13 @@ var QuestionController = /** @class */ (function () {
             });
         });
     };
-    QuestionController.prototype.deleteQuestion = function (req, res) {
+    QuestionController.prototype.deleteOne = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var questionId;
             return __generator(this, function (_a) {
                 questionId = +req.params.id;
                 // delete question from database
-                this.questionService.deleteQuestion(questionId)
+                this.questionService.deleteOne(questionId)
                     .then(function () {
                     res.json({
                         message: "Question deleted"
@@ -179,37 +174,32 @@ var QuestionController = /** @class */ (function () {
             });
         });
     };
-    // get question by id
-    QuestionController.prototype.getQuestion = function (req, res) {
-        return __awaiter(this, void 0, void 0, function () {
-            var questionId;
-            return __generator(this, function (_a) {
-                questionId = +req.params.id;
-                // get question from database
-                this.questionService.getQuestion(questionId)
-                    .then(function (question) {
-                    res.json({
-                        message: "Question retrieved",
-                        question: question
-                    });
-                })["catch"](function (err) {
-                    res.status(500).json({
-                        message: "Error retrieving question",
-                        error: err
-                    });
-                });
-                return [2 /*return*/];
-            });
-        });
-    };
+    // // get question by id
+    // async getQuestion(req: Request, res: Response) {
+    //     let questionId = +req.params.id
+    //     // get question from database
+    //     this.questionService.getQuestion(questionId)
+    //         .then(question => {
+    //             res.json({
+    //                 message: "Question retrieved",
+    //                 question
+    //             })
+    //         })
+    //         .catch(err => {
+    //             res.status(500).json({
+    //                 message: "Error retrieving question",
+    //                 error: err
+    //             })
+    //         })
+    // }
     // delete questions by set id
-    QuestionController.prototype.deleteQuestionsBySet = function (req, res) {
+    QuestionController.prototype.deleteAll = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var setId;
+            var cid;
             return __generator(this, function (_a) {
-                setId = +req.params.id;
+                cid = +req.params.cid;
                 // delete questions from database
-                this.questionService.deleteQuestionsBySet(setId)
+                this.questionService.deleteAll(cid)
                     .then(function () {
                     res.json({
                         message: "Questions deleted"

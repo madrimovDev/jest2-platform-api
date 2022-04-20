@@ -1,41 +1,21 @@
-import { PrismaClient,  } from "@prisma/client";
-import Question from "../models/question.model";
+import { PrismaClient, Question, Prisma } from "@prisma/client";
+import QuestionWithVariants from "../models/question.model";
 import { Variant } from "../models/variant.model";
 
 export default class QuestionService {
-    updateQuestionsBySet(setId: number, questions: Question[]) {
-        return this.prisma.question.updateMany({
-            where: {
-                setId: setId
-            },
-            data: questions.map(question => {
-                return {
-                    text: question.text,
-                }
-            })
-        });
-    }
     
-    addVariants(questionId: number, variants: Variant[]) {
-        return this.prisma.variant.createMany({
-            data: variants.map(variant => {
-            return {
-                questionId: questionId,
-                text: variant.text,
-                isCorrect: variant.isCorrect
-            }
-            })
-        })
-    }
+    constructor(private prisma: PrismaClient) { }
 
-    async addQuestionsBySet(setId: number, questions: Question[]) {
+    async createMany(complexId: number, questions: QuestionWithVariants[]) {
+        
         return new Promise(async (resolve, reject) => {
-            let array: Question[] = [];
+            
+            let array: QuestionWithVariants[] = [];
             try {
                 for (const question of questions) {
-                    question.setId = setId;
-                    let newQuestion = await this.createQuestion(question);
-                    array.push(newQuestion as Question);
+                    question.complexId = complexId;
+                    let newQuestion = await this.createOne(question);
+                    array.push(newQuestion);
                 }
                 resolve(array);
             }
@@ -45,12 +25,35 @@ export default class QuestionService {
         });
     }
 
-    constructor(private prisma: PrismaClient) { }
+    private createVariants(questionId: number, variants: Variant[]) {
+        return this.prisma.variant.createMany({
+            data: variants.map(variant => {
+                return {
+                    questionId: questionId,
+                    text: variant.text,
+                    isCorrect: variant.isCorrect
+                }
+            })
+        })
+    }
 
-    async getQuestions(setId: number) {
+    updateMany(complexId: number, questions: Question[]) {
+        return this.prisma.question.updateMany({
+            where: {
+                complexId: complexId
+            },
+            data: questions.map(question => {
+                return {
+                    text: question.text,
+                }
+            })
+        });
+    }
+
+    async findAll(complexId: number) {
         return await this.prisma.question.findMany({
             where: {
-                setId: setId
+                complexId: complexId
             },
             include: {
                 variants: true
@@ -58,22 +61,11 @@ export default class QuestionService {
         });
     }
 
-    async getQuestion(questionId: number) {
-        return await this.prisma.question.findUnique({
-            where: {
-                id: questionId
-            },
-            include: {
-                variants: true
-            }
-        });
-    }
-
-    async createQuestion(question: Question) {
+    async createOne(question: QuestionWithVariants): Promise<QuestionWithVariants> {
         return await this.prisma.question.create({
             data: {
                 text: question.text,
-                setId: question.setId,
+                complexId: question.complexId,
                 variants: {
                     createMany: {
                         data: question.variants.map(variant => {
@@ -84,11 +76,14 @@ export default class QuestionService {
                         })
                     } 
                 }
+            },
+            include: {
+                variants: true
             }
         });
     }
 
-    async updateQuestion(question: Question) {
+    async updateOne(question: Question) {
         return await this.prisma.question.update({
             where: {
                 id: question.id
@@ -99,7 +94,7 @@ export default class QuestionService {
         });
     }
 
-    async deleteQuestion(questionId: number) {
+    async deleteOne(questionId: number) {
         return await this.prisma.question.delete({
             where: {
                 id: questionId
@@ -110,10 +105,10 @@ export default class QuestionService {
         });
     }
 
-    async deleteQuestionsBySet(setId: number) {
+    async deleteAll(complexId: number) {
         return await this.prisma.question.deleteMany({
             where: {
-                setId: setId
+                complexId: complexId
             }
         });
     }

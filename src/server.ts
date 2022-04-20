@@ -11,7 +11,7 @@ dotenv.config({
 })
 
 import userRoutes from './routes/user.routes'
-import setRoutes from './routes/set.routes'
+import complexRoutes from './routes/complex.routes'
 import questionRoutes from './routes/question.routes'
 import sessionRoutes from './routes/session.routes'
 
@@ -29,8 +29,8 @@ app.use('/api-docs/', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
 
 //Routes
 app.use('/api', userRoutes)
-app.use('/api/set', setRoutes)
-app.use('/api/question', questionRoutes)
+app.use('/api/complex', questionRoutes)
+app.use('/api/complex', complexRoutes)
 app.use('/api/session', sessionRoutes)
 
 // run server

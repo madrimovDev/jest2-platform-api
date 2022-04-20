@@ -4,13 +4,16 @@ import { questionController } from "../controllers"
 const router = Router()
 
 // create crud routes
-router.route('/:setId')
-    .post((req, res) => questionController.addQuestionsBySet(req, res))
-    .get((req, res) => questionController.getQuestions(req, res))
+router.route('/:cid/question')
+    .post((req, res) => questionController.create(req, res))
+    .get((req, res) => questionController.findAll(req, res))
+    .put((req, res) => questionController.updateAll(req, res))
+    .delete((req, res) => questionController.deleteAll(req, res))
 
-router.route('/:setId/:id')
-    .get((req, res) => questionController.getQuestion(req, res))
-    .put((req, res) => questionController.updateQuestionsBySet(req, res))
-    .delete((req, res) => questionController.deleteQuestion(req, res))
+// router.route('/:cid/question/:id')
+//     .post((req, res) => questionController.create(req, res))
+//     .get((req, res) => questionController.findAll(req, res))
+//     .put((req, res) => questionController.updateAll(req, res))
+//     .delete((req, res) => questionController.deleteAll(req, res))
 
 export default router

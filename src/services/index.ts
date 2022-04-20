@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import QuestionService from "./question.service";
 import { SessionService } from "./session.service";
-import SetService from "./set.service";
+import SetService from "./complex.service";
 import UserService from "./user.service";
 
 const client: PrismaClient = new PrismaClient();
