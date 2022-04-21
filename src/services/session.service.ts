@@ -50,7 +50,11 @@ export class SessionService {
         let newSession = await this.client.session.create({
             data: {
                 user: session.user,
-                complexId: session.complexId,
+                complex: {
+                    connect: {
+                        path: session.complexPath
+                    }
+                },
                 startTime: new Date(),
             },
             include: includeOptions
@@ -63,7 +67,7 @@ export class SessionService {
         let time = new Date().getTime() - session.startTime.getTime()!;
         let remainingTime = session.complex.time.getTime() - time;
 
-        session.expired = remainingTime > 0
+        session.expired = remainingTime <= 0
         session.remainingTime = remainingTime;
 
         return session;

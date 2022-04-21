@@ -1,11 +1,11 @@
 "use strict";
 exports.__esModule = true;
 var SessionWithComplex = /** @class */ (function () {
-    function SessionWithComplex(id, user, path, complexId, startTime, endTime, completed, complex, expired, remainingTime) {
+    function SessionWithComplex(id, user, path, complexPath, startTime, endTime, completed, complex, expired, remainingTime) {
         this.id = id;
         this.user = user;
         this.path = path;
-        this.complexId = complexId;
+        this.complexPath = complexPath;
         this.startTime = startTime;
         this.endTime = endTime;
         this.completed = completed;

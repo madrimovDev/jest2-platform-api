@@ -5,7 +5,7 @@ export default class SessionWithComplex {
         public id: number,
         public user: string,
         public path: string,
-        public complexId: number,
+        public complexPath: string,
         public startTime: Date,
         public endTime: Date,
         public completed: boolean,
