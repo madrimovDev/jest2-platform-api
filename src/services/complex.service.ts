@@ -1,4 +1,4 @@
-import { PrismaClient, Complex } from "@prisma/client";
+import { PrismaClient, Complex, Prisma } from "@prisma/client";
 export default class SetService {
 
     constructor(private client: PrismaClient) {}
@@ -31,8 +31,13 @@ export default class SetService {
         return await this.client.complex.create({
             data: {
                 name: complex.name,
-                userId: complex.userId,
+                user: {
+                    connect: {
+                        id: complex.userId
+                    }
+                },
                 time: new Date(complex.time),
+                path: complex.path
             }
         })
     }
@@ -45,6 +50,7 @@ export default class SetService {
             },
             data: {
                 name: complex.name,
+                path: complex.path,
                 time: new Date(complex.time),
             }
         })

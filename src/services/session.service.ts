@@ -17,21 +17,6 @@ export class SessionService {
 
     constructor(private client: PrismaClient) {}
 
-    async findSessionByPath(path: string) {
-        let session = await this.client.session.findUnique({
-            where: {
-                path: path
-            },
-            include: includeOptions
-        }) as SessionWithComplex | null;
-
-        if (!session) {
-            throw new Error("Session not found");
-        }
-
-        return this.mapSession;
-    }
-
     async completeSession(sessionId: number, answers: Answer[]) {
         return await this.client.session.update({
             where: {
@@ -66,7 +51,7 @@ export class SessionService {
             data: {
                 user: session.user,
                 complexId: session.complexId,
-                startTime: session.startTime,
+                startTime: new Date(),
             },
             include: includeOptions
         });

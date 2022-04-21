@@ -7,6 +7,6 @@ import UserService from "./user.service";
 const client: PrismaClient = new PrismaClient();
 
 export const userService = new UserService(client);
-export const setService = new SetService(client);
+export const complexService = new SetService(client);
 export const questionService = new QuestionService(client);
 export const sessionService = new SessionService(client);
