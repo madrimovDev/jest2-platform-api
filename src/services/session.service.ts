@@ -1,4 +1,5 @@
 import { Answer, PrismaClient, Session } from "@prisma/client";
+import SessionState from "../models/session-state.model";
 import SessionWithComplex from "../models/session.model";
 
 const includeOptions = {
@@ -94,6 +95,24 @@ export class SessionService {
                 completed: session.completed
             }
         });
+    }
+
+    async getSessionState(id: number): Promise<SessionState> {
+        let state = await this.client.session.findUnique({
+            where: {
+                id: id
+            },
+            select: {
+                startTime: true,
+                completed: true,
+                complex: {
+                    select: {
+                        time: true
+                    }
+                }
+            }
+        })
+        return state! 
     }
 
     async deleteSession(sessionId: number) {

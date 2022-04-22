@@ -37,7 +37,7 @@ export default class SetService {
         })
     }
 
-    // update set
+    // eEEupdate set
     async updateOne(complex: Complex) {
         return await this.client.complex.update({
             where: {

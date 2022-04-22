@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { ParsedQs } from "qs";
 import { SessionService } from "../services/session.service";
 
 export default class SessionController {
@@ -58,8 +59,33 @@ export default class SessionController {
         );
     }
 
+    public async complete(req: Request, res: Response) {
+        let id = +req.params.id;
+        let state = await this.sessionService.getSessionState(id);
+
+        if (state.completed) {
+            return res.status(403).send({
+                message: "Session already completed",
+            })
+        }
+
+        if (state.startTime.getTime() + state.complex.time.getTime() < new Date().getTime()) {
+            return res.status(403).send({
+                message: "Session expired",
+            })
+        }
+
+        let result = await this.sessionService.completeSession(id, req.body)
+
+        res.status(200).json({
+            message: "Session completed",
+            result
+        })
+    }
+
     public async updateOne(req: Request, res: Response) {
         let id = +req.params.id;
+
         this.sessionService.updateSession(id, req.body)
             .then(session => {
                 res.status(200).send({

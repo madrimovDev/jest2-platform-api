@@ -3,12 +3,16 @@ import { sessionController } from "../controllers";
 
 const router = Router()
 
-router.route('/')
-    .get((req, res) => sessionController.findAll(req, res))
-    .post((req, res) => sessionController.create(req, res))
+// get all sessions | for admin
+router.get('/', (req, res) => sessionController.findAll(req, res));
 
-router.route('/:id')
-    .get((req, res) => sessionController.findOne(req, res))
-    .put((req, res) => sessionController.updateOne(req, res))
+// create new session
+router.post('/start', (req, res) => sessionController.create(req, res))
+
+// get session by id
+router.get('/:id', (req, res) => sessionController.findOne(req, res))
+
+// complete session
+router.put('/:id', (req, res) => sessionController.complete(req, res))
 
 export default router
