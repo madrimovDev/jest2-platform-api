@@ -117,9 +117,10 @@ var ComplexController = /** @class */ (function () {
     ComplexController.prototype.deleteOne = function (req, res) {
         var id = +req.params.id;
         this.complexService.deleteOne(id)
-            .then(function () {
+            .then(function (complex) {
             res.json({
-                message: "Complex deleted"
+                message: "Complex deleted",
+                complex: complex
             });
         })["catch"](function (err) {
             res.status(500).json({

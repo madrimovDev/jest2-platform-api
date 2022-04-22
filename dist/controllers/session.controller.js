@@ -100,6 +100,38 @@ var SessionController = /** @class */ (function () {
             });
         });
     };
+    SessionController.prototype.complete = function (req, res) {
+        return __awaiter(this, void 0, void 0, function () {
+            var id, state, result;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        id = +req.params.id;
+                        return [4 /*yield*/, this.sessionService.getSessionState(id)];
+                    case 1:
+                        state = _a.sent();
+                        if (state.completed) {
+                            return [2 /*return*/, res.status(403).send({
+                                    message: "Session already completed"
+                                })];
+                        }
+                        if (state.startTime.getTime() + state.complex.time.getTime() < new Date().getTime()) {
+                            return [2 /*return*/, res.status(403).send({
+                                    message: "Session expired"
+                                })];
+                        }
+                        return [4 /*yield*/, this.sessionService.completeSession(id, req.body)];
+                    case 2:
+                        result = _a.sent();
+                        res.status(200).json({
+                            message: "Session completed",
+                            result: result
+                        });
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     SessionController.prototype.updateOne = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
             var id;

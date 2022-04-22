@@ -150,6 +150,32 @@ var SessionService = /** @class */ (function () {
             });
         });
     };
+    SessionService.prototype.getSessionState = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var state;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.client.session.findUnique({
+                            where: {
+                                id: id
+                            },
+                            select: {
+                                startTime: true,
+                                completed: true,
+                                complex: {
+                                    select: {
+                                        time: true
+                                    }
+                                }
+                            }
+                        })];
+                    case 1:
+                        state = _a.sent();
+                        return [2 /*return*/, state];
+                }
+            });
+        });
+    };
     SessionService.prototype.deleteSession = function (sessionId) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
