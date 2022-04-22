@@ -92,9 +92,10 @@ export default class ComplexController {
         let id = +req.params.id
 
         this.complexService.deleteOne(id)
-            .then(() => {
+            .then((complex) => {
                 res.json({
-                    message: "Complex deleted"
+                    message: "Complex deleted",
+                    complex
                 })
             })
             .catch(err => {

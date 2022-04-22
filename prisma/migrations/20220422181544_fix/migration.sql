@@ -13,8 +13,8 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Complex" (
     "id" SERIAL NOT NULL,
-    "path" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "path" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
     "time" TIMESTAMP(3) NOT NULL,
 
@@ -44,8 +44,8 @@ CREATE TABLE "Variant" (
 CREATE TABLE "Session" (
     "id" SERIAL NOT NULL,
     "user" TEXT NOT NULL,
-    "complexId" INTEGER NOT NULL,
-    "startTime" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
+    "complexPath" TEXT NOT NULL,
+    "startTime" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "endTime" TIMESTAMP(3),
     "completed" BOOLEAN NOT NULL DEFAULT false,
 
@@ -55,9 +55,9 @@ CREATE TABLE "Session" (
 -- CreateTable
 CREATE TABLE "Answer" (
     "id" SERIAL NOT NULL,
-    "question" INTEGER NOT NULL,
-    "variant" INTEGER NOT NULL,
-    "session" INTEGER NOT NULL,
+    "questionId" INTEGER NOT NULL,
+    "variantId" INTEGER NOT NULL,
+    "sessionId" INTEGER NOT NULL,
 
     CONSTRAINT "Answer_pkey" PRIMARY KEY ("id")
 );
@@ -78,4 +78,13 @@ ALTER TABLE "Question" ADD CONSTRAINT "Question_complexId_fkey" FOREIGN KEY ("co
 ALTER TABLE "Variant" ADD CONSTRAINT "Variant_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Session" ADD CONSTRAINT "Session_complexId_fkey" FOREIGN KEY ("complexId") REFERENCES "Complex"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Session" ADD CONSTRAINT "Session_complexPath_fkey" FOREIGN KEY ("complexPath") REFERENCES "Complex"("path") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Answer" ADD CONSTRAINT "Answer_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Answer" ADD CONSTRAINT "Answer_variantId_fkey" FOREIGN KEY ("variantId") REFERENCES "Variant"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Answer" ADD CONSTRAINT "Answer_sessionId_fkey" FOREIGN KEY ("sessionId") REFERENCES "Session"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

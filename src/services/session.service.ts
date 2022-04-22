@@ -40,7 +40,7 @@ export class SessionService {
             },
             include: includeOptions
         });
-        return this.mapSession(session as SessionWithComplex);
+        return this.mapSession(session as unknown as SessionWithComplex);
     }
 
     async getSessions() {
@@ -60,7 +60,7 @@ export class SessionService {
             },
             include: includeOptions
         });
-        return this.mapSession(newSession as SessionWithComplex);
+        return this.mapSession(newSession as unknown as SessionWithComplex);
     }
 
     private mapSession(session: SessionWithComplex) {

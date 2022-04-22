@@ -1,68 +1,34 @@
 ## Questions
 
-**POST** `/api/question/:setId`
-
+**POST** `/api/complex/:complexId/question`
 ```json
 [
     {
-        "text": "32 How to use the API?",
+        "text": "What is the difference between a variable and a function?",
         "variants": [
-            {
-                "text": "How to use the API?",
+            { 
+                "text": "Function can be called as a variable",
                 "isCorrect": true
             },
             {
-                "text": "How to use the API?",
+                "text": "Variable can be called as a function",
                 "isCorrect": false
             },
             {
-                "text": "How to use the API?",
+                "text": "Function and Variable are the same",
+                "isCorrect": false
+            },
+            {
+                "text": "None of the above",
                 "isCorrect": false
             }
-        ]
-    },
-    {
-        "text": "12 How to use the API 2?",
-        "variants": [
-            {
-                "text": "How to use the API?",
-                "isCorrect": true
-            },
-            {
-                "text": "How to use the API?",
-                "isCorrect": false
-            },
-            {
-                "text": "How to use the API?",
-                "isCorrect": false
-            }
+
         ]
     }
 ]
 ```
 
-Response:
-
-```json
-{
-  "message": "Questions added successfully",
-  "questions": [
-    {
-      "id": 7,
-      "text": "32 How to use the API?",
-      "setId": 1
-    },
-    {
-      "id": 8,
-      "text": "12 How to use the API 2?",
-      "setId": 1
-    }
-  ]
-}
-```
-
-
-**GET** `/api/question/:setId`
+**GET** `/api/complex/:complexId/question`
 
 Response:
 

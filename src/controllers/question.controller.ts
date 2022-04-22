@@ -138,26 +138,26 @@ export default class QuestionController {
             })
     }
 
-    // // get question by id
-    // async getQuestion(req: Request, res: Response) {
+    // get question by id
+    async getQuestion(req: Request, res: Response) {
 
-    //     let questionId = +req.params.id
+        let questionId = +req.params.id
 
-    //     // get question from database
-    //     this.questionService.getQuestion(questionId)
-    //         .then(question => {
-    //             res.json({
-    //                 message: "Question retrieved",
-    //                 question
-    //             })
-    //         })
-    //         .catch(err => {
-    //             res.status(500).json({
-    //                 message: "Error retrieving question",
-    //                 error: err
-    //             })
-    //         })
-    // }
+        // get question from database
+        this.questionService.getQuestion(questionId)
+            .then(question => {
+                res.json({
+                    message: "Question retrieved",
+                    question
+                })
+            })
+            .catch(err => {
+                res.status(500).json({
+                    message: "Error retrieving question",
+                    error: err
+                })
+            })
+    }
 
     // delete questions by set id
     async deleteAll(req: Request, res: Response) {
