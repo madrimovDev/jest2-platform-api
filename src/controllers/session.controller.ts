@@ -19,6 +19,7 @@ export default class SessionController {
                     message: "Error creating session",
                     error: err
                 });
+                throw err
             }
         );
     }

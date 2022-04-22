@@ -20,6 +20,7 @@ model User {
 model Complex {
   id        Int        @id @default(autoincrement())
   name      String
+  path      String     @unique
   userId    Int
   time      DateTime
   user      User       @relation(fields: [userId], references: [id])
@@ -33,7 +34,7 @@ model Question {
   variants  Variant[]
   complexId Int
   complex   Complex   @relation(fields: [complexId], references: [id])
-  answers    Answer[]
+  answers   Answer[]
 }
 
 model Variant {
@@ -42,19 +43,18 @@ model Variant {
   isCorrect  Boolean  @default(false)
   questionId Int
   question   Question @relation(fields: [questionId], references: [id])
-  answers     Answer[]
+  answers    Answer[]
 }
 
 model Session {
-  id        Int       @id @default(autoincrement())
-  user      String
-  path      String    @unique @default(cuid())
-  complexId Int
-  complex   Complex   @relation(fields: [complexId], references: [id])
-  startTime DateTime  @default(now())
-  endTime   DateTime?
-  completed Boolean   @default(false)
-  answers    Answer[]
+  id          Int       @id @default(autoincrement())
+  user        String
+  complexPath String
+  complex     Complex   @relation(fields: [complexPath], references: [path])
+  startTime   DateTime  @default(now())
+  endTime     DateTime?
+  completed   Boolean   @default(false)
+  answers     Answer[]
 }
 
 model Answer {

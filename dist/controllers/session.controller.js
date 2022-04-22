@@ -54,6 +54,7 @@ var SessionController = /** @class */ (function () {
                         message: "Error creating session",
                         error: err
                     });
+                    throw err;
                 });
                 return [2 /*return*/];
             });

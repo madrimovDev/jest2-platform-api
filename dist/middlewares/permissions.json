@@ -2,6 +2,7 @@
     { "path": "/api/login" },
     { "path": "/api/logout" },
     { "path": "/api/register" },
+    { "path": "/api/session" },
     { "path": "/api/complex", "role": "USER" },
     {
         "path": "^/api/question",

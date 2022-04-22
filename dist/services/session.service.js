@@ -52,27 +52,6 @@ var SessionService = /** @class */ (function () {
     function SessionService(client) {
         this.client = client;
     }
-    SessionService.prototype.findSessionByPath = function (path) {
-        return __awaiter(this, void 0, void 0, function () {
-            var session;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.client.session.findUnique({
-                            where: {
-                                path: path
-                            },
-                            include: includeOptions
-                        })];
-                    case 1:
-                        session = _a.sent();
-                        if (!session) {
-                            throw new Error("Session not found");
-                        }
-                        return [2 /*return*/, this.mapSession];
-                }
-            });
-        });
-    };
     SessionService.prototype.completeSession = function (sessionId, answers) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
@@ -130,8 +109,12 @@ var SessionService = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.client.session.create({
                             data: {
                                 user: session.user,
-                                complexId: session.complexId,
-                                startTime: session.startTime
+                                complex: {
+                                    connect: {
+                                        path: session.complexPath
+                                    }
+                                },
+                                startTime: new Date()
                             },
                             include: includeOptions
                         })];
@@ -145,7 +128,7 @@ var SessionService = /** @class */ (function () {
     SessionService.prototype.mapSession = function (session) {
         var time = new Date().getTime() - session.startTime.getTime();
         var remainingTime = session.complex.time.getTime() - time;
-        session.expired = remainingTime > 0;
+        session.expired = remainingTime <= 0;
         session.remainingTime = remainingTime;
         return session;
     };

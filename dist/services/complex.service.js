@@ -83,8 +83,13 @@ var SetService = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.client.complex.create({
                             data: {
                                 name: complex.name,
-                                userId: complex.userId,
-                                time: new Date(complex.time)
+                                user: {
+                                    connect: {
+                                        id: complex.userId
+                                    }
+                                },
+                                time: new Date(complex.time),
+                                path: complex.path
                             }
                         })];
                     case 1: return [2 /*return*/, _a.sent()];
@@ -103,6 +108,7 @@ var SetService = /** @class */ (function () {
                             },
                             data: {
                                 name: complex.name,
+                                path: complex.path,
                                 time: new Date(complex.time)
                             }
                         })];
