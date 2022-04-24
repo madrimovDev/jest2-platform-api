@@ -31,7 +31,7 @@ app.use('/api/complex', question_routes_1["default"]);
 app.use('/api/complex', complex_routes_1["default"]);
 app.use('/api/session', session_routes_1["default"]);
 // run server
-app.listen(3000, function () {
-    console.log('Server is running on port 3000');
+app.listen(process.env.PORT || 3000, function () {
+    console.log('Server is running...');
 });
 //# sourceMappingURL=server.js.map
