@@ -38,6 +38,8 @@ export default class UserController {
         res.json({
             message: "Login successful",
             username: user.username,
+            name: user.name,
+            surname: user.surname,
             token
         });
     }
@@ -84,6 +86,8 @@ export default class UserController {
         res.json({
             message: "User created",
             username: newUser.username,
+            name: newUser.name,
+            surname: newUser.surname,
             token: sign(newUser, '2h')
         });
     }

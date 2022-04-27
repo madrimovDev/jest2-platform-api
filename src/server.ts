@@ -22,7 +22,12 @@ const app = express()
 //this will let us get the data from a POST
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    credentials: true
+}))
 app.use(authMiddleware)
 
 app.use('/api-docs/', swaggerUI.serve, swaggerUI.setup(swaggerDocument))
