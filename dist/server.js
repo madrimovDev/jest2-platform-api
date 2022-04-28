@@ -22,7 +22,12 @@ var app = (0, express_1["default"])();
 //this will let us get the data from a POST
 app.use(express_1["default"].json());
 app.use(express_1["default"].urlencoded({ extended: true }));
-app.use((0, cors_1["default"])());
+app.use((0, cors_1["default"])({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    credentials: true
+}));
 app.use(auth_middleware_1.authMiddleware);
 app.use('/api-docs/', swagger_ui_express_1["default"].serve, swagger_ui_express_1["default"].setup(swagger_json_1["default"]));
 //Routes
