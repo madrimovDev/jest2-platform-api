@@ -48,7 +48,7 @@ var UserController = /** @class */ (function () {
     }
     UserController.prototype.login = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var _a, username, password, user, token;
+            var _a, username, password, user, token, err_1;
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
@@ -59,8 +59,11 @@ var UserController = /** @class */ (function () {
                                     message: "Username and password are required"
                                 })];
                         }
-                        return [4 /*yield*/, this.userService.getUserByUsername(username)];
+                        _b.label = 1;
                     case 1:
+                        _b.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.userService.getUserByUsername(username)];
+                    case 2:
                         user = _b.sent();
                         // check if user exists
                         if (!user) {
@@ -80,7 +83,16 @@ var UserController = /** @class */ (function () {
                             username: user.username,
                             token: token
                         });
-                        return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 3:
+                        err_1 = _b.sent();
+                        res.status(500).send({
+                            message: 'Error process login',
+                            error: err_1
+                        });
+                        console.error(err_1);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
@@ -88,7 +100,7 @@ var UserController = /** @class */ (function () {
     // register a new user
     UserController.prototype.register = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var oldUser, salt, hashedPassword, user, newUser;
+            var oldUser, salt, hashedPassword, user, newUser, err_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -104,8 +116,11 @@ var UserController = /** @class */ (function () {
                                     message: "Username, password, name and surname are required"
                                 })];
                         }
-                        return [4 /*yield*/, this.userService.getUserByUsername(req.body.username)];
+                        _a.label = 1;
                     case 1:
+                        _a.trys.push([1, 4, , 5]);
+                        return [4 /*yield*/, this.userService.getUserByUsername(req.body.username)];
+                    case 2:
                         oldUser = _a.sent();
                         if (oldUser) {
                             return [2 /*return*/, res.status(400).json({
@@ -116,14 +131,21 @@ var UserController = /** @class */ (function () {
                         hashedPassword = bcryptjs_1["default"].hashSync(req.body.password, salt);
                         user = new user_model_1["default"](undefined, req.body.username, hashedPassword, req.body.name, req.body.surname);
                         return [4 /*yield*/, this.userService.createUser(user)];
-                    case 2:
+                    case 3:
                         newUser = _a.sent();
                         res.json({
                             message: "User created",
                             username: newUser.username,
                             token: (0, security_1.sign)(newUser, '2h')
                         });
-                        return [2 /*return*/];
+                        return [3 /*break*/, 5];
+                    case 4:
+                        err_2 = _a.sent();
+                        return [2 /*return*/, res.status(500).json({
+                                message: "Error process register",
+                                error: err_2
+                            })];
+                    case 5: return [2 /*return*/];
                 }
             });
         });

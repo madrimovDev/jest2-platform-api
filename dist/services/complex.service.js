@@ -54,6 +54,20 @@ var SetService = /** @class */ (function () {
             });
         });
     };
+    SetService.prototype.findByPath = function (path) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.client.complex.findUnique({
+                            where: {
+                                path: path
+                            }
+                        })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
     // get one set
     SetService.prototype.findOne = function (complexId) {
         return __awaiter(this, void 0, void 0, function () {

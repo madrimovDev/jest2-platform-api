@@ -12,20 +12,26 @@ export default class ComplexController {
         let complex: Complex = req.body
         complex.userId = userId
 
-        this.complexService.createOne(complex)
-            .then(complex => {
-                res.json({
-                    message: "Sets retrieved",
-                    complex
+        try {
+            let oldComplex = await this.complexService.findByPath(complex.path)
+            if (oldComplex) {
+                return res.status(400).json({
+                    message: `Complex with path: ${complex.path} already exists!`
                 })
+            }
+
+            let newComplex = await this.complexService.createOne(complex)
+            res.json({
+                message: "Complexes retrieved",
+                newComplex
             })
-            .catch(err => {
-                res.status(500).json({
-                    message: "Error retrieving complexes",
-                    error: err
-                })
-                throw err
+        }
+        catch(err) {
+            res.status(500).json({
+                message: "Error retrieving complexes",
+                error: err
             })
+        }
     }
 
     findAll(req: Request, res: Response) {
@@ -43,7 +49,6 @@ export default class ComplexController {
                     message: "Error retrieving complexes",
                     error: err
                 })
-                throw err
             })
     }
 
@@ -62,7 +67,6 @@ export default class ComplexController {
                     message: "Error retrieving complex",
                     error: err
                 })
-                throw err
             })
     }
 
@@ -84,7 +88,6 @@ export default class ComplexController {
                     message: "Error updating complex",
                     error: err
                 })
-                throw err
             })
     }
 

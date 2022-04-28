@@ -19,7 +19,7 @@ export default class SessionController {
                     message: "Error creating session",
                     error: err
                 });
-                throw err
+                console.error(err);
             }
         );
     }
@@ -38,6 +38,7 @@ export default class SessionController {
                         message: "Error retrieving sessions",
                         error: err
                     });
+                    console.error(err);
                 }
             );
         }
@@ -56,6 +57,7 @@ export default class SessionController {
                     message: "Error retrieving session",
                     error: err
                 });
+                console.error(err);
             }
         );
     }
@@ -63,6 +65,12 @@ export default class SessionController {
     public async complete(req: Request, res: Response) {
         let id = +req.params.id;
         let state = await this.sessionService.getSessionState(id);
+
+        if (!state) {
+            return res.status(404).send({
+                message: `session with id ${id} not found.`
+            })
+        }
 
         if (state.completed) {
             return res.status(403).send({
@@ -99,6 +107,7 @@ export default class SessionController {
                     message: "Error updating session",
                     error: err
                 });
+                console.error(err);
             }
         );
     }
@@ -117,6 +126,7 @@ export default class SessionController {
                     message: "Error deleting session",
                     error: err
                 });
+                console.error(err);
             }
         );
     }

@@ -11,6 +11,14 @@ export default class SetService {
         })
     }
 
+    async findByPath(path: string) {
+        return await this.client.complex.findUnique({
+            where: {
+                path: path,
+            }
+        })
+    }
+
     // get one set
     async findOne(complexId: number) {
         return await this.client.complex.findUnique({

@@ -27,8 +27,7 @@ export default class QuestionController {
                     message: "Error adding questions",
                     error: err
                 })
-
-                throw err
+                console.error(err);
             })
     }
         
@@ -73,7 +72,7 @@ export default class QuestionController {
                     message: "Error retrieving questions",
                     error: err
                 })
-                throw err
+                console.error(err);
             })
     }
 
@@ -96,6 +95,7 @@ export default class QuestionController {
                     message: "Error updating questions",
                     error: err
                 })
+                console.error(err);
             })
     }
 
@@ -116,6 +116,7 @@ export default class QuestionController {
                     message: "Error updating question",
                     error: err
                 })
+                console.error(err);
             })
     }
 
@@ -135,6 +136,7 @@ export default class QuestionController {
                     message: "Error deleting question",
                     error: err
                 })
+                console.error(err);
             })
     }
 
@@ -176,6 +178,7 @@ export default class QuestionController {
                     message: "Error deleting questions",
                     error: err
                 })
+                console.error(err);
             })
     }
 }
