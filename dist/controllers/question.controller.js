@@ -59,7 +59,7 @@ var QuestionController = /** @class */ (function () {
                         message: "Error adding questions",
                         error: err
                     });
-                    throw err;
+                    console.error(err);
                 });
                 return [2 /*return*/];
             });
@@ -101,7 +101,7 @@ var QuestionController = /** @class */ (function () {
                         message: "Error retrieving questions",
                         error: err
                     });
-                    throw err;
+                    console.error(err);
                 });
                 return [2 /*return*/];
             });
@@ -126,6 +126,7 @@ var QuestionController = /** @class */ (function () {
                         message: "Error updating questions",
                         error: err
                     });
+                    console.error(err);
                 });
                 return [2 /*return*/];
             });
@@ -148,6 +149,7 @@ var QuestionController = /** @class */ (function () {
                         message: "Error updating question",
                         error: err
                     });
+                    console.error(err);
                 });
                 return [2 /*return*/];
             });
@@ -169,6 +171,7 @@ var QuestionController = /** @class */ (function () {
                         message: "Error deleting question",
                         error: err
                     });
+                    console.error(err);
                 });
                 return [2 /*return*/];
             });
@@ -209,6 +212,7 @@ var QuestionController = /** @class */ (function () {
                         message: "Error deleting questions",
                         error: err
                     });
+                    console.error(err);
                 });
                 return [2 /*return*/];
             });

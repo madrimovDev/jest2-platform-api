@@ -42,25 +42,41 @@ var ComplexController = /** @class */ (function () {
     }
     ComplexController.prototype.create = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var userId, complex;
+            var userId, complex, oldComplex, newComplex, err_1;
             return __generator(this, function (_a) {
-                userId = req.payload.userId;
-                complex = req.body;
-                complex.userId = userId;
-                this.complexService.createOne(complex)
-                    .then(function (complex) {
-                    res.json({
-                        message: "Sets retrieved",
-                        complex: complex
-                    });
-                })["catch"](function (err) {
-                    res.status(500).json({
-                        message: "Error retrieving complexes",
-                        error: err
-                    });
-                    throw err;
-                });
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        userId = req.payload.userId;
+                        complex = req.body;
+                        complex.userId = userId;
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 4, , 5]);
+                        return [4 /*yield*/, this.complexService.findByPath(complex.path)];
+                    case 2:
+                        oldComplex = _a.sent();
+                        if (oldComplex) {
+                            return [2 /*return*/, res.status(400).json({
+                                    message: "Complex with path: ".concat(complex.path, " already exists!")
+                                })];
+                        }
+                        return [4 /*yield*/, this.complexService.createOne(complex)];
+                    case 3:
+                        newComplex = _a.sent();
+                        res.json({
+                            message: "Complexes retrieved",
+                            newComplex: newComplex
+                        });
+                        return [3 /*break*/, 5];
+                    case 4:
+                        err_1 = _a.sent();
+                        res.status(500).json({
+                            message: "Error retrieving complexes",
+                            error: err_1
+                        });
+                        return [3 /*break*/, 5];
+                    case 5: return [2 /*return*/];
+                }
             });
         });
     };
@@ -77,7 +93,6 @@ var ComplexController = /** @class */ (function () {
                 message: "Error retrieving complexes",
                 error: err
             });
-            throw err;
         });
     };
     ComplexController.prototype.findOne = function (req, res) {
@@ -93,7 +108,6 @@ var ComplexController = /** @class */ (function () {
                 message: "Error retrieving complex",
                 error: err
             });
-            throw err;
         });
     };
     ComplexController.prototype.updateOne = function (req, res) {
@@ -111,7 +125,6 @@ var ComplexController = /** @class */ (function () {
                 message: "Error updating complex",
                 error: err
             });
-            throw err;
         });
     };
     ComplexController.prototype.deleteOne = function (req, res) {

@@ -54,7 +54,7 @@ var SessionController = /** @class */ (function () {
                         message: "Error creating session",
                         error: err
                     });
-                    throw err;
+                    console.error(err);
                 });
                 return [2 /*return*/];
             });
@@ -74,6 +74,7 @@ var SessionController = /** @class */ (function () {
                         message: "Error retrieving sessions",
                         error: err
                     });
+                    console.error(err);
                 });
                 return [2 /*return*/];
             });
@@ -95,6 +96,7 @@ var SessionController = /** @class */ (function () {
                         message: "Error retrieving session",
                         error: err
                     });
+                    console.error(err);
                 });
                 return [2 /*return*/];
             });
@@ -110,6 +112,11 @@ var SessionController = /** @class */ (function () {
                         return [4 /*yield*/, this.sessionService.getSessionState(id)];
                     case 1:
                         state = _a.sent();
+                        if (!state) {
+                            return [2 /*return*/, res.status(404).send({
+                                    message: "session with id ".concat(id, " not found.")
+                                })];
+                        }
                         if (state.completed) {
                             return [2 /*return*/, res.status(403).send({
                                     message: "Session already completed"
@@ -148,6 +155,7 @@ var SessionController = /** @class */ (function () {
                         message: "Error updating session",
                         error: err
                     });
+                    console.error(err);
                 });
                 return [2 /*return*/];
             });
@@ -169,6 +177,7 @@ var SessionController = /** @class */ (function () {
                         message: "Error deleting session",
                         error: err
                     });
+                    console.error(err);
                 });
                 return [2 /*return*/];
             });
