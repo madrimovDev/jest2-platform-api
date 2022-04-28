@@ -196,13 +196,11 @@ var QuestionController = /** @class */ (function () {
     //         })
     // }
     // delete questions by set id
-    QuestionController.prototype.deleteAll = function (req, res) {
+    QuestionController.prototype.deleteMany = function (req, res) {
         return __awaiter(this, void 0, void 0, function () {
-            var cid;
             return __generator(this, function (_a) {
-                cid = +req.params.cid;
                 // delete questions from database
-                this.questionService.deleteAll(cid)
+                this.questionService.deleteMany(req.body)
                     .then(function () {
                     res.json({
                         message: "Questions deleted"

@@ -30,22 +30,30 @@ var authMiddleware = function (req, res, next) {
     }
     // get payload from token
     var token = req.headers.authorization.split(" ")[1];
-    var payload = (0, security_1.verify)(token);
-    // check if payload is valid
-    if (!payload) {
-        return res.status(401).json({
-            message: "Token is invalid"
+    try {
+        var payload = (0, security_1.verify)(token);
+        // check if payload is valid
+        if (!payload) {
+            return res.status(401).json({
+                message: "Token is invalid"
+            });
+        }
+        console.log(payload.role, path.role);
+        if (path.role !== payload.role) {
+            return res.status(401).json({
+                message: "You don't have permission to access this resource"
+            });
+        }
+        // add payload to request
+        req.payload = payload;
+        next();
+    }
+    catch (err) {
+        res.status(401).send({
+            message: 'session expired',
+            error: err
         });
     }
-    console.log(payload.role, path.role);
-    if (path.role !== payload.role) {
-        return res.status(401).json({
-            message: "You don't have permission to access this resource"
-        });
-    }
-    // add payload to request
-    req.payload = payload;
-    next();
 };
 exports.authMiddleware = authMiddleware;
 //# sourceMappingURL=auth.middleware.js.map

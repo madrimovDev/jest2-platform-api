@@ -34,24 +34,32 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
 
     // get payload from token
     const token = req.headers.authorization.split(" ")[1];
-    const payload = verify(token);
+    try {
+        const payload = verify(token);
     
-    // check if payload is valid
-    if (!payload) {
-        return res.status(401).json({
-            message: "Token is invalid"
-        });
-    }
-    console.log(payload.role, path.role);
-    
-    if (path.role !== payload.role) {
-        return res.status(401).json({
-            message: "You don't have permission to access this resource"
-        });
-    }
+        // check if payload is valid
+        if (!payload) {
+            return res.status(401).json({
+                message: "Token is invalid"
+            });
+        }
+        console.log(payload.role, path.role);
+        
+        if (path.role !== payload.role) {
+            return res.status(401).json({
+                message: "You don't have permission to access this resource"
+            });
+        }
 
-    // add payload to request
-    req.payload = payload;
+        // add payload to request
+        req.payload = payload;
 
-    next();
+        next();
+    }
+    catch(err) {
+        res.status(401).send({
+            message: 'session expired',
+            error: err
+        })
+    }
 }

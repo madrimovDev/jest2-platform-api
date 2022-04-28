@@ -162,12 +162,10 @@ export default class QuestionController {
     // }
 
     // delete questions by set id
-    async deleteAll(req: Request, res: Response) {
-
-        let cid = +req.params.cid
+    async deleteMany(req: Request, res: Response) {
 
         // delete questions from database
-        this.questionService.deleteAll(cid)
+        this.questionService.deleteMany(req.body)
             .then(() => {
                 res.json({
                     message: "Questions deleted"

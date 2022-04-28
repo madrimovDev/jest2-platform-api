@@ -105,11 +105,13 @@ export default class QuestionService {
         });
     }
 
-    async deleteAll(complexId: number) {
-        return await this.prisma.question.deleteMany({
-            where: {
-                complexId: complexId
-            }
-        });
+    async deleteMany(ids: number[]) {
+        for(let id of ids) {
+            await this.prisma.question.delete({
+                where: {
+                    id: id
+                }
+            });
+        }
     }
 }

@@ -183,16 +183,29 @@ var QuestionService = /** @class */ (function () {
             });
         });
     };
-    QuestionService.prototype.deleteAll = function (complexId) {
+    QuestionService.prototype.deleteMany = function (ids) {
         return __awaiter(this, void 0, void 0, function () {
+            var _i, ids_1, id;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.prisma.question.deleteMany({
-                            where: {
-                                complexId: complexId
-                            }
-                        })];
-                    case 1: return [2 /*return*/, _a.sent()];
+                    case 0:
+                        _i = 0, ids_1 = ids;
+                        _a.label = 1;
+                    case 1:
+                        if (!(_i < ids_1.length)) return [3 /*break*/, 4];
+                        id = ids_1[_i];
+                        return [4 /*yield*/, this.prisma.question["delete"]({
+                                where: {
+                                    id: id
+                                }
+                            })];
+                    case 2:
+                        _a.sent();
+                        _a.label = 3;
+                    case 3:
+                        _i++;
+                        return [3 /*break*/, 1];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
