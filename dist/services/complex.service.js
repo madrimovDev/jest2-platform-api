@@ -49,9 +49,9 @@ var SetService = /** @class */ (function () {
                                 userId: userId
                             },
                             include: {
-                                questions: {
-                                    include: {
-                                        _count: true
+                                _count: {
+                                    select: {
+                                        questions: true
                                     }
                                 }
                             }

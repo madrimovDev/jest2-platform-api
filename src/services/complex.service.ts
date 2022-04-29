@@ -9,11 +9,11 @@ export default class SetService {
                 userId: userId
             }, 
             include: {
-                questions: {
-                    include: {
-                        _count: true
-                    }
-                }
+               _count: {
+                   select: {
+                       questions: true
+                   }
+               }
             }
         })
     }

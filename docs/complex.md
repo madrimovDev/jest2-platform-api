@@ -22,7 +22,7 @@ Response:
     "name": "JavaScript",
     "path": "0000-4451-BGXC-5TR4",
     "userId": 1,
-    "time": "1970-01-01T01:00:00.000Z"
+    "time": "1970-01-01T01:00:00.000Z",
   }
 }
 ```
@@ -45,7 +45,10 @@ Response:
       "name": "JavaScript",
       "path": "0000-4451-BGXC-5TR4",
       "userId": 1,
-      "time": "1970-01-01T01:00:00.000Z"
+      "time": "1970-01-01T01:00:00.000Z",
+      "_count": {
+        "questions": 2
+      }
     }
   ]
 }

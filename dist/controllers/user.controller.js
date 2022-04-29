@@ -81,6 +81,8 @@ var UserController = /** @class */ (function () {
                         res.json({
                             message: "Login successful",
                             username: user.username,
+                            name: user.name,
+                            surname: user.surname,
                             token: token
                         });
                         return [3 /*break*/, 4];
@@ -136,6 +138,8 @@ var UserController = /** @class */ (function () {
                         res.json({
                             message: "User created",
                             username: newUser.username,
+                            name: newUser.name,
+                            surname: newUser.surname,
                             token: (0, security_1.sign)(newUser, '2h')
                         });
                         return [3 /*break*/, 5];
