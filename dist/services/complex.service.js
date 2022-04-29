@@ -47,6 +47,13 @@ var SetService = /** @class */ (function () {
                     case 0: return [4 /*yield*/, this.client.complex.findMany({
                             where: {
                                 userId: userId
+                            },
+                            include: {
+                                questions: {
+                                    include: {
+                                        _count: true
+                                    }
+                                }
                             }
                         })];
                     case 1: return [2 /*return*/, _a.sent()];

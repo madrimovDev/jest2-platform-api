@@ -7,6 +7,13 @@ export default class SetService {
         return await this.client.complex.findMany({
             where: {
                 userId: userId
+            }, 
+            include: {
+                questions: {
+                    include: {
+                        _count: true
+                    }
+                }
             }
         })
     }
